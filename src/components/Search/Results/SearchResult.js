@@ -1,10 +1,15 @@
+import { useDispatch } from 'react-redux'
 import styles from './SearchResult.module.css'
+import { AppActions } from '../../../store/index'
+import axios from 'axios'
 
 const SearchResult = props=>{
+    const dispatch = useDispatch()
     const album = props.album
 
-    const selectAlbumHandler = ()=>{
-        props.selectAlbumHandler(album.id)
+    const selectAlbumHandler = async ()=>{
+        const res = await axios.get(`http://192.168.0.103:3001/album/${album.id}`);
+        dispatch(AppActions.setViewAlbum({item: res.data.data}))
     }
 
     return (

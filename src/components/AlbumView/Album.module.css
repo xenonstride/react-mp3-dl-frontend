@@ -6,38 +6,8 @@
     font-size: 1.5rem;
 }
 
-.details,.tracks{
-    display: flex;
-    width: 50%;
-}
-
-.details,.tracks{
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.album-name{
-    font-size: 1.5rem;
-    text-align: center;
-    padding: 1rem;
-}
-
-.album-track{
-    display: flex;
-    width: 100%;
-}
-
 @media only screen and (max-width: 768px){
     .album{
         flex-direction: column;
-    }
-
-    .details,.tracks{
-        width: 100%;
-    }
-
-    .details{
-        margin-bottom: 10px;
     }
 }

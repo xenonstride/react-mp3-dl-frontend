@@ -3,14 +3,11 @@ import styles from './SearchResults.module.css'
 
 const SearchResults = (props)=>{
 
-    if(props.found.length>0){
-        const selectAlbumHandler = (id)=>{
-            props.selectAlbumHandler(id)
-        }
+    if(props.results.length>0){
         return (
             <div className={styles['search-results']}>
-                {props.found.map(a=>{
-                    return <SearchResult selectAlbumHandler={selectAlbumHandler} key={a.id} album={a}/>
+                {props.results.map(a=>{
+                    return <SearchResult key={a.id} album={a}/>
                 })}
             </div>
         )

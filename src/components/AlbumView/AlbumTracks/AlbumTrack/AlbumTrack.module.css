@@ -1,0 +1,20 @@
+.album-track{
+    display: flex;
+    width: 100%;
+}
+
+.album-name{
+    margin-right: 30px;
+}
+
+.dl-track{
+    margin: auto 0;
+    width: 20px;
+    height: 20px;
+}
+
+@media only screen and (max-width: 768px){
+    .album-track{
+        justify-content: space-between;
+    }
+}

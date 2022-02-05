@@ -3,7 +3,8 @@ import { configureStore,createSlice } from "@reduxjs/toolkit";
 const initialState = {
     searchQuery: '',
     searchResults: [],
-    foundAlbum: {}
+    viewAlbum: {},
+    selectedTracks:[]
 }
 
 const AppSlice = createSlice({
@@ -11,13 +12,19 @@ const AppSlice = createSlice({
     initialState,
     reducers: {
         setSearchQuery(state,action){
-            state.searchQuery=action.payload.searchQuery;
+            state.searchQuery=action.payload.item;
         },
         setSearchResults(state,action){
-            state.searchResults=action.payload.searchResults;
+            state.searchResults=action.payload.item;
         },
-        setFoundAlbum(state,action){
-            state.foundAlbum=action.payload.foundAlbum;
+        setViewAlbum(state,action){
+            state.viewAlbum=action.payload.item;
+        },
+        addToSelectedTracks(state,action){
+            state.selectedTracks.push(action.payload.item)
+        },
+        removeFromSelectedTracks(state,action){
+            state.selectedTracks=state.selectedTracks.filter(it=>it!=action.payload.item)
         }
     }
 })

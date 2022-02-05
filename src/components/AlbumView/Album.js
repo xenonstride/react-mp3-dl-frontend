@@ -1,33 +1,22 @@
+import { useSelector } from 'react-redux';
 import styles from './Album.module.css'
+import AlbumDetails from './AlbumDetails/AlbumDetails';
+import AlbumTracks from './AlbumTracks/AlbumTracks';
 
-const Album = (props)=>{
+const Album = ()=>{
+    const viewAlbum = useSelector(state=>state.viewAlbum)
 
-    if(Object.keys(props.albumData).length>0){
-        const album=props.albumData
-
-        let tracks=[];
-        for(let t of album.tracks.items){
-            tracks.push(<div key={t.id} className={styles['album-track']}>{t.track_number}. {t.name}</div>)
-        }
+    if(Object.keys(viewAlbum).length>0){
         return (
             <div className={styles.album}>
-                <div className={styles['details']}>
-                    <div className={styles['album-name']}>{album.name || ""}</div>
-                    <div className={styles['album-art']}> <img src={window.innerWidth>768 ? album.images[1]['url']:album.images[2]['url']} alt="" /> </div>
-                </div>
-                <div className={styles['tracks']}>
-                    {tracks}
-                </div>
+                <AlbumDetails />
+                <AlbumTracks tracks={viewAlbum.tracks.items}/>
             </div>
         )
     }
     else{
-        return (
-            <div>No Data</div>
-        )
+        return null
     }
-
-    
 }
 
 export default Album;
