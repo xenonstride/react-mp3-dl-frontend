@@ -12,12 +12,18 @@ function App() {
     const getAlbumData = async ()=>{
       let res;
       if(type==='id'){
-        res = await axios.get(`http://localhost:3001/album/${album}`);
+        res = await axios.get(`http://192.168.0.103:3001/album/${album}`);
       }
       else if(type==='first'){
-        res = await axios.get(`http://localhost:3001/first/album/${album}`);
+        res = await axios.get(`http://192.168.0.103:3001/first/album/${album}`);
       }
-      setViewAlbum(res.data.data)
+
+      if(res.data.statusCode===200){
+        setViewAlbum(res.data.data)
+      }else{
+        setViewAlbum(null)
+      }
+      
     }
     getAlbumData();
   }

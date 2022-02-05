@@ -25,7 +25,7 @@ const SearchBar = (props)=>{
     useEffect(()=>{
         const timeout = setTimeout(async ()=>{
             if(query.trim().length>0){
-                const searched_res = await axios.get(`http://localhost:3001/search/album/${query}`)
+                const searched_res = await axios.get(`http://192.168.0.103:3001/search/album/${query}`)
                 console.log(searched_res.data.data.albums.items)
                 setFoundAlbums(searched_res.data.data.albums.items)
             }
