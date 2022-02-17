@@ -27,7 +27,7 @@ const AlbumTrack = (props)=>{
     }else if(props.trackState==="not found"){
         trackState=<p>Not Found</p>
     }else if(typeof props.trackState==='object'){
-        trackState=<a href={'http://localhost:3001/download/'+props.trackState.link}>Download</a>
+        trackState=<a href={`http://${process.env.REACT_APP_URL}:3001/download/`+props.trackState.link}>Download</a>
     }
 
     return (

@@ -14,7 +14,7 @@ const SearchBar = (props)=>{
 
     const formSubmitHandler = async (e)=>{
         e.preventDefault()
-        const res = await axios.get(`http://localhost:3001/first/album/${query}`);
+        const res = await axios.get(`http://${process.env.REACT_APP_URL}:3001/first/album/${query}`);
         if(res.data.statusCode===200){
             dispatch(AppActions.setViewAlbum({item: res.data.data}))
           }else{
@@ -31,7 +31,7 @@ const SearchBar = (props)=>{
     useEffect(()=>{
         const timeout = setTimeout(async ()=>{
             if(query.trim().length>0){
-                const searched_res = await axios.get(`http://localhost:3001/search/album/${query}`)
+                const searched_res = await axios.get(`http://${process.env.REACT_APP_URL}:3001/search/album/${query}`)
                 console.log(searched_res.data.data.albums.items)
                 dispatch(AppActions.setSearchResults({item: searched_res.data.data.albums.items}))
             }
