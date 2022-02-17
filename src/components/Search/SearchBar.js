@@ -1,4 +1,4 @@
-import { Fragment, useRef,useEffect, useState } from 'react'
+import { Fragment, useRef,useEffect,} from 'react'
 import styles from './SearchBar.module.css'
 import axios from 'axios'
 import SearchResults from './Results/SearchResults'
@@ -14,12 +14,13 @@ const SearchBar = (props)=>{
 
     const formSubmitHandler = async (e)=>{
         e.preventDefault()
-        const res = await axios.get(`http://192.168.0.103:3001/first/album/${query}`);
+        const res = await axios.get(`http://localhost:3001/first/album/${query}`);
         if(res.data.statusCode===200){
             dispatch(AppActions.setViewAlbum({item: res.data.data}))
           }else{
             dispatch(AppActions.setViewAlbum({item: null}))
           }
+        dispatch(AppActions.resetSelectedTracks())
         dispatch(AppActions.setSearchResults({item: []}))
     }
 
@@ -30,11 +31,12 @@ const SearchBar = (props)=>{
     useEffect(()=>{
         const timeout = setTimeout(async ()=>{
             if(query.trim().length>0){
-                const searched_res = await axios.get(`http://192.168.0.103:3001/search/album/${query}`)
+                const searched_res = await axios.get(`http://localhost:3001/search/album/${query}`)
                 console.log(searched_res.data.data.albums.items)
                 dispatch(AppActions.setSearchResults({item: searched_res.data.data.albums.items}))
             }
             else{
+                dispatch(AppActions.resetSelectedTracks())
                 dispatch(AppActions.setSearchResults({item: []}))
                 dispatch(AppActions.setViewAlbum({item: null}))
             }

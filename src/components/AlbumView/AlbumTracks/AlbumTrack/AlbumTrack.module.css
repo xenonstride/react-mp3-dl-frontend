@@ -1,16 +1,52 @@
 .album-track{
     display: flex;
     width: 100%;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.album-name{
+.album-track:hover{
+    cursor: pointer;
+}
+
+.track-name{
     margin-right: 30px;
 }
 
-.dl-track{
-    margin: auto 0;
-    width: 20px;
-    height: 20px;
+.checkbox{
+    width: 1.25rem;
+    height: 70%;
+    background: white;
+    position: relative;
+}
+
+.checked{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+.checked::before{
+    position: absolute;
+    content:'';
+    background: black;
+    height: 3px;
+    width: 59.9083%;
+    top: 50%;
+    transform: rotate(45deg) translateY(1px);
+    transform-origin: left;
+    border-radius: 20%;
+}
+
+.checked::after{
+    position: absolute;
+    content:'';
+    width: 119.817%;
+    height: 3px;
+    background: black;
+    transform: rotate(-60deg) translateY(-5px);
+    transform-origin: right;
+    border-radius: 20%;
 }
 
 @media only screen and (max-width: 768px){

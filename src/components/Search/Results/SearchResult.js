@@ -8,8 +8,9 @@ const SearchResult = props=>{
     const album = props.album
 
     const selectAlbumHandler = async ()=>{
-        const res = await axios.get(`http://192.168.0.103:3001/album/${album.id}`);
+        const res = await axios.get(`http://localhost:3001/album/${album.id}`);
         dispatch(AppActions.setViewAlbum({item: res.data.data}))
+        dispatch(AppActions.resetSelectedTracks())
     }
 
     return (

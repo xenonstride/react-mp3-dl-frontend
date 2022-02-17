@@ -24,8 +24,11 @@ const AppSlice = createSlice({
             state.selectedTracks.push(action.payload.item)
         },
         removeFromSelectedTracks(state,action){
-            state.selectedTracks=state.selectedTracks.filter(it=>it!=action.payload.item)
-        }
+            state.selectedTracks=state.selectedTracks.filter(it=>it!==action.payload.item)
+        },
+        resetSelectedTracks(state){
+            state.selectedTracks=[]
+        },
     }
 })
 

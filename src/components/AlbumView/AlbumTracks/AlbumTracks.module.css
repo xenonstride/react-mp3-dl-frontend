@@ -1,6 +1,6 @@
 .tracks{
     display: flex;
-    width: 50%;
+    min-width: 35%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
