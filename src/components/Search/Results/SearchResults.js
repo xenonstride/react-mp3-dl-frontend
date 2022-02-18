@@ -7,7 +7,7 @@ const SearchResults = (props)=>{
         return (
             <div className={styles['search-results']}>
                 {props.results.map(a=>{
-                    return <SearchResult key={a.id} album={a}/>
+                    return <SearchResult key={a.id} album={a} onClose={props.onClose}/>
                 })}
             </div>
         )

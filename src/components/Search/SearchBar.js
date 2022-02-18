@@ -1,4 +1,4 @@
-import { Fragment, useRef,useEffect,} from 'react'
+import {Fragment, useRef, useEffect, useState,} from 'react'
 import styles from './SearchBar.module.css'
 import axios from 'axios'
 import SearchResults from './Results/SearchResults'
@@ -11,17 +11,27 @@ const SearchBar = (props)=>{
     
     const query = useSelector(state=>state.searchQuery)
     const searchResults = useSelector(state=>state.searchResults)
+    const [showResults,setShowResults] = useState(false)
+
+    const inputFocusedHandler = ()=>{
+        setShowResults(true)
+    }
+
+    const inputFocusLostHandler = ()=>{
+        setShowResults(false)
+    }
 
     const formSubmitHandler = async (e)=>{
         e.preventDefault()
-        const res = await axios.get(`http://${process.env.REACT_APP_URL}:3001/first/album/${query}`);
+        const res = await axios.get(`${process.env.REACT_APP_URL}:3001/first/album/${query}`);
         if(res.data.statusCode===200){
             dispatch(AppActions.setViewAlbum({item: res.data.data}))
           }else{
             dispatch(AppActions.setViewAlbum({item: null}))
           }
         dispatch(AppActions.resetSelectedTracks())
-        dispatch(AppActions.setSearchResults({item: []}))
+        inputFocusLostHandler()
+        // dispatch(AppActions.setSearchResults({item: []}))
     }
 
     const albumChangeHandler = (e)=>{
@@ -31,7 +41,7 @@ const SearchBar = (props)=>{
     useEffect(()=>{
         const timeout = setTimeout(async ()=>{
             if(query.trim().length>0){
-                const searched_res = await axios.get(`http://${process.env.REACT_APP_URL}:3001/search/album/${query}`)
+                const searched_res = await axios.get(`${process.env.REACT_APP_URL}:3001/search/album/${query}`)
                 console.log(searched_res.data.data.albums.items)
                 dispatch(AppActions.setSearchResults({item: searched_res.data.data.albums.items}))
             }
@@ -49,11 +59,16 @@ const SearchBar = (props)=>{
 
     return (
         <Fragment>
-            <form className={styles['search-container']} onSubmit={formSubmitHandler}>
-                <input onChange={albumChangeHandler} ref={albumNameRef} type="text" className={styles['search-bar']}/>
+            <form className={styles['search-form-container']} onSubmit={formSubmitHandler}>
+                <div className={styles['search-container']}>
+                    <input onChange={albumChangeHandler}
+                           onFocus={inputFocusedHandler}
+                           ref={albumNameRef} type="text" className={styles['search-bar']}/>
+                    {showResults && <SearchResults results={searchResults} onClose={inputFocusLostHandler}/>}
+                </div>
                 <button className={styles['search-btn']}>Search</button>
             </form>
-            <SearchResults results={searchResults}/>
+
         </Fragment>
     )
 }

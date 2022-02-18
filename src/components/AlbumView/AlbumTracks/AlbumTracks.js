@@ -90,7 +90,7 @@ const AlbumTracks = (props)=>{
     return (
         <div className={styles['tracks']}>
             {tracks}
-            {selectedTracks.length>0 ? <button onClick={downloadBtnHandler}>Download</button>:null}
+            <button onClick={downloadBtnHandler} disabled={!selectedTracks.length>0}>Download</button>
         </div>
         
     )
