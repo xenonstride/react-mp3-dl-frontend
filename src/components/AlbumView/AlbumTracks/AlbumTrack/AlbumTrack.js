@@ -20,12 +20,14 @@ const AlbumTrack = (props)=>{
     // console.log(props.trackState)
     if(props.trackState==="checkbox"){
         trackState = <div className={styles['checkbox']}>
-            {checked && <div className={styles['checked']}></div>}
+            {checked && <div className={styles['checked']}>{}</div>}
         </div>
     }else if(props.trackState==="found"){
-        trackState=<p>Downloading</p>
+        trackState=<div>Downloading</div>
     }else if(props.trackState==="not found"){
-        trackState=<p>Not Found</p>
+        trackState=<div>Not Found</div>
+    }else if(props.trackState==="errored"){
+        trackState=<div>Error</div>
     }else if(typeof props.trackState==='object'){
         trackState=<a href={`http://${process.env.REACT_APP_URL}:3001/download/`+props.trackState.link}>Download</a>
     }

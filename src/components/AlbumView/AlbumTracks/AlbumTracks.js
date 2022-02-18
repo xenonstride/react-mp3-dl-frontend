@@ -17,17 +17,19 @@ const AlbumTracks = (props)=>{
     const downloadBtnHandler = async ()=>{
         const reqObj=[]
         for(let t_id of selectedTracks){
-            const currSong = allTracks.find(t=>t.id===t_id)
-            const {id: track_id, track_number, name: track_name, artists} = currSong
-            let allArtists = artists.map(a=>a.name)
-            reqObj.push({
-                track_id,
-                track_number,
-                track_name,
-                track_artists: allArtists.join(', '),
-                album_name: viewAlbum.name,
-                art_url: viewAlbum.images[1].url
-            })
+            if(trackStates[allTracks.findIndex(t=>t.id===t_id)]==="checkbox"){
+                const currSong = allTracks.find(t=>t.id===t_id)
+                const {id: track_id, track_number, name: track_name, artists} = currSong
+                let allArtists = artists.map(a=>a.name)
+                reqObj.push({
+                    track_id,
+                    track_number,
+                    track_name,
+                    track_artists: allArtists.join(', '),
+                    album_name: viewAlbum.name,
+                    art_url: viewAlbum.images[1].url
+                })
+            }
         }
         // console.log(reqObj)
         socket.emit('download',{
@@ -54,11 +56,21 @@ const AlbumTracks = (props)=>{
 
         socket.on('done',data=>{
             const dlData = data.data.data;
-            console.log(dlData)
+            // console.log(dlData)
             setTrackStates(prevState=>{
                 const newState = [...prevState];
                 for(let f of dlData){
                     newState[allTracks.findIndex(e=>e.id===f.id)]=f
+                }
+                // console.log(dlData.length,selectedTracks.length)
+                if(dlData.length!==selectedTracks.length){
+                    const dlDataIds = dlData.map(d=>d.id)
+                    for(let e of selectedTracks){
+                        if(!dlDataIds.includes(e)){
+                            // console.log(e)
+                            newState[allTracks.findIndex(t=>t.id===e)]="errored"
+                        }
+                    }
                 }
                 return newState;
             })
@@ -68,7 +80,7 @@ const AlbumTracks = (props)=>{
             socket.off('working')
             socket.off('done')
         }
-    },[allTracks,socket])
+    },[allTracks,socket,selectedTracks])
 
     let tracks=[];
     for(let t of allTracks){

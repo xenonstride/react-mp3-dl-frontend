@@ -10,6 +10,10 @@ const Album = (props)=>{
         return (
             <div className={styles.album}>
                 <AlbumDetails/>
+                <div style={{
+                    height: '100%',
+                    width: '8%'
+                }}>{}</div>
                 <AlbumTracks socket={props.socket}/>
             </div>
         )
