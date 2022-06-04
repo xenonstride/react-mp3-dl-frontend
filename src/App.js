@@ -12,7 +12,8 @@ function App() {
   const [socket,setSocket] = useState(null)
 
   useEffect(()=>{
-    const newSocket = io(`${process.env.REACT_APP_URL}:3001`)
+    console.log(process.env.REACT_APP_URL)
+    const newSocket = io(`${process.env.REACT_APP_SOCKET_URL}`)
     setSocket(newSocket)
     return ()=> newSocket.close()
   },[setSocket])

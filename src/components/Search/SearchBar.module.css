@@ -22,6 +22,10 @@
 .search-form-container{
     display: flex;
     justify-content: center;
+    flex-flow: row wrap;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .search-btn{
@@ -33,4 +37,10 @@
 
 .search-btn:hover{
     cursor: pointer;
+}
+
+@media only screen and (max-width: 768px){
+    .search-form-container{
+        width: 90%
+    }
 }

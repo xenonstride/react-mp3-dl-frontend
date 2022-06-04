@@ -29,8 +29,14 @@ const AlbumTracks = (props)=>{
                     album_name: viewAlbum.name,
                     art_url: viewAlbum.images[1].url
                 })
+                setTrackStates(prevState=>{
+                    const newState = [...prevState]
+                    newState[allTracks.findIndex(t=>t.id===t_id)]="searching"
+                    return newState
+                })
             }
         }
+
         // console.log(reqObj)
         socket.emit('download',{
             songs: reqObj
@@ -39,7 +45,7 @@ const AlbumTracks = (props)=>{
 
     useEffect(()=>{
         socket.on('working',data=>{
-            console.log(data);
+            console.log(new Date().getTime());
 
             setTrackStates(prevState=>{
                 const newState = [...prevState];
@@ -55,24 +61,17 @@ const AlbumTracks = (props)=>{
         })
 
         socket.on('done',data=>{
-            const dlData = data.data.data;
-            // console.log(dlData)
+            console.log(new Date().getTime())
             setTrackStates(prevState=>{
                 const newState = [...prevState];
-                for(let f of dlData){
-                    newState[allTracks.findIndex(e=>e.id===f.id)]=f
-                }
-                // console.log(dlData.length,selectedTracks.length)
-                if(dlData.length!==selectedTracks.length){
-                    const dlDataIds = dlData.map(d=>d.id)
-                    for(let e of selectedTracks){
-                        if(!dlDataIds.includes(e)){
-                            // console.log(e)
-                            newState[allTracks.findIndex(t=>t.id===e)]="errored"
-                        }
-                    }
-                }
-                return newState;
+                console.log(data)
+                if(data.status==="success")
+                    newState[allTracks.findIndex(e=>e.id===data.id)]=data
+                else if(data.status==="error")
+                    newState[allTracks.findIndex(e=>e.id===data.id)]="errored"
+                else console.log(`some other error ${data}`)
+                
+                return newState
             })
         })
 
@@ -90,7 +89,7 @@ const AlbumTracks = (props)=>{
     return (
         <div className={styles['tracks']}>
             {tracks}
-            <button onClick={downloadBtnHandler} disabled={!selectedTracks.length>0}>Download</button>
+            <button className={styles['dl-btn']} onClick={downloadBtnHandler} disabled={!selectedTracks.length>0}>Download</button>
         </div>
         
     )

@@ -6,6 +6,22 @@
     align-items: center;
 }
 
+.dl-btn{
+    background-color: white;
+    border-radius: 10px;
+    height: 40px;
+    width: 150px;
+    border: none;
+    margin-top: 20px;
+    transition: 0.4s cubic-bezier(0.075, 0.82, 0.165, 1) background-color;
+}
+
+.dl-btn:not([disabled]):hover{
+    background-color: rgb(36, 35, 35);
+    color: white;
+    cursor: pointer;
+}
+
 @media only screen and (max-width: 768px){
     .tracks{
         width: 100%;

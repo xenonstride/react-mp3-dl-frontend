@@ -7,7 +7,7 @@ const AlbumDetails = (props)=>{
     return (
         <div className={styles['details']}>
             <div className={styles['album-name']}>{viewAlbum.name || ""}</div>
-            <div className={styles['album-art']}> <img src={window.innerWidth>768 ? viewAlbum.images[1]['url']:viewAlbum.images[2]['url']} alt="" /> </div>
+            <div className={styles['album-art']}> <img src={viewAlbum.images[1]['url']} alt="" /> </div>
         </div>
     )
 }

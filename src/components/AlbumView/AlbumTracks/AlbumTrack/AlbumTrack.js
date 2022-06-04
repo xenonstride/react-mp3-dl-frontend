@@ -1,18 +1,26 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import styles from './AlbumTrack.module.css'
 import { AppActions } from '../../../../store/index'
+import { useSelector } from 'react-redux'
 
 const AlbumTrack = (props)=>{
     const {track_number,name} = props
+    const viewAlbum = useSelector(state=>state.viewAlbum)
     const [checked,setChecked] = useState(false)
     const dispatch = useDispatch()
 
+    useEffect(()=>{
+        setChecked(false)
+    },[viewAlbum])
+
     const clickHandler = ()=>{
-        setChecked(prevState=>!prevState)
-        //here !checked because state doesnt update before the dispatch runs
-        if(!checked) dispatch(AppActions.addToSelectedTracks({item: props.id}))
-        else dispatch(AppActions.removeFromSelectedTracks({item: props.id}))
+        if(props.trackState==="checkbox"){
+            setChecked(prevState=>!prevState)
+            //here !checked because state doesnt update before the dispatch runs
+            if(!checked) dispatch(AppActions.addToSelectedTracks({item: props.id}))
+            else dispatch(AppActions.removeFromSelectedTracks({item: props.id}))
+        }
     }
 
     let trackState;
@@ -22,6 +30,8 @@ const AlbumTrack = (props)=>{
         trackState = <div className={styles['checkbox']}>
             {checked && <div className={styles['checked']}>{}</div>}
         </div>
+    }else if(props.trackState==="searching"){
+        trackState=<div>Searching</div>
     }else if(props.trackState==="found"){
         trackState=<div>Downloading</div>
     }else if(props.trackState==="not found"){
@@ -29,7 +39,7 @@ const AlbumTrack = (props)=>{
     }else if(props.trackState==="errored"){
         trackState=<div>Error</div>
     }else if(typeof props.trackState==='object'){
-        trackState=<a href={`${process.env.REACT_APP_URL}:3001/download/`+props.trackState.link}>Download</a>
+        trackState=<a target="_blank" href={props.trackState.link}>Download</a>
     }
 
     return (
